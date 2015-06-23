@@ -1,0 +1,123 @@
+body{
+    margin:0 auto;
+    background-color: black;
+}
+i{
+    font-family: "Source Code Pro", Monaco, monospace;
+    font-style: normal;
+    font-size:12px;
+    float:right;
+    padding-right:5px;
+    padding-top:80px;
+}
+h1{
+    color:white;
+    font-family:'Oswald', sans-serif;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+nav{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+nav ul{
+    list-style-type: none;
+    width:100px;
+    padding:0;
+}
+nav ul li{
+    text-align:center;
+    color: white;
+    flex:1;
+    font-family:'Oswald', sans-serif;
+}
+button{
+    height:50px;
+    width:100px;
+    font-family:'Oswald', sans-serif;
+    font-size: 18px;
+}
+
+#keys{
+    font-family:'Oswald', sans-serif;
+    width:55%;
+    margin:0 auto;
+    padding:10px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+}
+.white{
+    color:black;
+    background-color: white;
+    border:1px solid black;
+    width:50px;
+    height:100px;
+    flex:1;
+}
+.black{
+    color:white;
+    border:1px solid black;
+    width:50px;
+    height:100px;
+    flex:1;
+    background-color: black;
+}
+#analyser{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+#analyser div{
+    width:61px;
+    height:30px;
+    border-radius: 10px 10px 10px 10px;
+}
+#one{
+    background: linear-gradient(#00E5A6, black);
+}
+#two{
+    background: linear-gradient(#00DBE1, black);
+}
+#three{
+    background: linear-gradient(#0095DD, black);
+}
+#four{
+    background: linear-gradient(#0051D9, black);
+}
+#five{
+    background: linear-gradient(#000FD5, black);
+}
+#six{
+    background: linear-gradient(#2F00D2, black);
+}
+#seven{
+    background: linear-gradient(#6C00CE, black);
+}
+#eight{
+    background: linear-gradient(#A700CA, black);
+}
+#nine{
+    background: linear-gradient(#C600AD, black);
+}
+#ten{
+    background: linear-gradient(#C2006F, black);
+}
+#eleven{
+    background: linear-gradient(#BF0033, black);
+}

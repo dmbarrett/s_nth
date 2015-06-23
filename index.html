@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="javascripts/mousetrap.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--<script src="css/style.css"></script>-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <title></title>
+</head>
+<h1>s _ nth</h1>
+<div id = "analyser">
+    <div name="light" id="one"></div>
+    <div name="light" id="two"></div>
+    <div name="light" id="three"></div>
+    <div name="light" id="four"></div>
+    <div name="light" id="five"></div>
+    <div name="light" id="six"></div>
+    <div name="light" id="seven"></div>
+    <div name="light" id="eight"></div>
+    <div name="light" id="nine"></div>
+    <div name="light" id="ten"></div>
+    <div name="light" id="eleven"></div>
+</div>
+<div id = 'keys'>
+    <div class= 'white C' id="C">&nbsp;C <i>Q</i></div>
+    <div class= 'black C#' id="C#">&nbsp;C# <i>2</i></div>
+    <div class= 'white D' id="D">&nbsp;D <i>W</i></div>
+    <div class= 'black D#' id="D#">&nbsp;D# <i>3</i></div>
+    <div class= 'white E' id="E">&nbsp;E <i>E</i></div>
+    <div class= 'white F' id="F">&nbsp;F <i>R</i></div>
+    <div class= 'black F#' id="F#">&nbsp;F# <i>5</i></div>
+    <div class= 'white G' id="G">&nbsp;G <i>T</i></div>
+    <div class= 'black G#' id="G#">&nbsp;G# <i>6</i></div>
+    <div class= 'white A' id="A">&nbsp;A <i>Y</i></div>
+    <div class= 'black A#' id="A#">&nbsp;A# <i>7</i></div>
+    <div class= 'white B' id="B">&nbsp;B <i>U</i></div>
+</div>
+<div id = 'panelContainer'>
+    <nav id = "effectPanel">
+        <ul id = "LFO">
+            <li>
+                LFO Divisor
+            </li>
+            <li>
+                <button id = 'lfosub'>
+                    +
+                </button>
+            </li>
+            <li>
+                <button id = 'lfoadd'>
+                    -
+                </button>
+            </li>
+
+        </ul>
+
+        <ul>
+            <li>
+                Lowpass Filter
+            </li>
+            <li>
+                <button id = "lowpassAdd">
+                    +
+                </button>
+            </li>
+            <li>
+                <button id = "lowpassSub">
+                    -
+                </button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                Decay
+            </li>
+            <li>
+                <button id="decayAdd">+</button>
+            </li>
+            <li>
+                <button id="decaySub">-</button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                Attack
+            </li>
+            <li>
+                <button id="attackAdd">+</button>
+            </li>
+            <li>
+                <button id="attackSub">-</button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                Ghost Filter
+            </li>
+            <li>
+                <button id ="moog">
+                    On
+                </button>
+            </li>
+            <li>
+                <button id ="moogOff">
+                    Off
+                </button>
+            </li>
+        </ul>
+        <ul>
+            <li>Reverb</li>
+            <li>
+                <button id="rev">
+                    On
+                </button>
+            </li>
+            <li>
+                <button id="revoff">
+                    Off
+                </button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                Bitcrusher
+            </li>
+            <li>
+                <button id = "bitter">
+                    On
+                </button>
+            </li>
+            <li>
+                <button id ="bitterOff">
+                    Off
+                </button>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div id="blackbar"></div>
+
+</body>
+</html>
