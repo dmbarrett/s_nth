@@ -88,6 +88,10 @@ button{
     height:30px;
     border-radius: 10px 10px 10px 10px;
 }
+datalist{
+    display: block;
+}
+
 #one{
     background: linear-gradient(#00E5A6, black);
 }

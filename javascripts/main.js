@@ -6,12 +6,20 @@ var gain = ctxt.createGain();
 analyser = ctxt.createAnalyser();
 var now
 var drive  = ctxt.createWaveShaper();
-LFOD = 2;
-ODG = 0;
+LFOD = 2; //LFO DIVISOR
+ODG = 0; //OVERDRIVE GAIN
 FFV = 4000;
 EG = .5;
 DEC = 1;
 ATT = 1;
+var oscnum = 0;
+var lfonum = 0;
+
+
+var mnode = ctxt.createDelay();
+var mfilter = ctxt.createBiquadFilter();
+mfilter.frequency.value = 1000;
+mnode.delayTime.value = .5;
 
 analyser.fftSize = 2048;
 var frequencyData = new Uint8Array(1024);
@@ -42,7 +50,7 @@ var mgain = ctxt.createGain();
 
 
 $(document).ready(function(){
-
+    //MAIN OSC **VCO**
     osc.frequency.value = 0;
     osc.type = 'sawtooth';
     osc.start(0);
@@ -63,6 +71,8 @@ $(document).ready(function(){
 
     lfogain = ctxt.createGain();
     lfogain.gain.value= .5;
+
+    mgain.gain.value = .8;
 
     //var lowshlf = ctxt.createBiquadFilter();
     //lowshlf.type = "lowshelf";
@@ -90,7 +100,7 @@ $(document).ready(function(){
     driveCompressor.attack.value = 0;
     driveCompressor.release.value = 2;
     osc.connect(drive);
-    osc.connect(distortion);
+   // osc.connect(distortion);
     //osc.connect(ctxt.destination);
     //ADD DELAY and PANNER NODES
     //ADD TIMBRE(MINOR PITCH MODULATION)
@@ -104,13 +114,14 @@ $(document).ready(function(){
     lfogain.connect(node);
     gain.connect(mnode);
     node.connect(mgain);
-    mnode.connect(mgain);
     mgain.connect(driveFilter);
     driveFilter.connect(filter);
     filter.connect(driveCompressor);
-    driveCompressor.connect(analyser);
+    osc.connect(analyser);
+    lfo.connect(analyser);
     driveCompressor.connect(ctxt.destination);
 
+    //KEYBINDS
 //C4
 Mousetrap.bind('q', function() {
     document.getElementById("C").style.transform = "rotateX(0deg)";
@@ -255,11 +266,26 @@ Mousetrap.bind('u', function() {
     lfo.frequency.value = 493.63/LFOD;
     keydown();
 });
+    //UI-CONTROLS
     document.getElementById("lfoadd").addEventListener("click", function(){
         LFOD +=2;
+        if(LFOD <= 0){
+            LFOD = 1;
+        }
+        else if(LFOD%2 != 0)
+        {
+            LFOD = 2;
+        }
     });
     document.getElementById("lfosub").addEventListener("click", function(){
         LFOD -=2;
+        if(LFOD <= 0){
+            LFOD = 1;
+        }
+        else if(LFOD%2 != 0)
+        {
+            LFOD = 2;
+        }
     });
     //document.getElementById("gainadd").addEventListener("click", function(){
     //    gain.gain.value = 1.0;
@@ -332,41 +358,43 @@ Mousetrap.bind('u', function() {
     document.getElementById("bitterOff").addEventListener("click", function(){
         node.disconnect();
     });
-    document.getElementById("moog").addEventListener("click", function(){
-        mnode.connect(mgain);
-        var bufferSize = 4096;
-        var effect = (function() {
-            var mnode = ctxt.createScriptProcessor(bufferSize, 1, 1);
-            var in1, in2, in3, in4, out1, out2, out3, out4;
-            in1 = in2 = in3 = in4 = out1 = out2 = out3 = out4 = 0.0;
-            mnode.cutoff = 0.45; // between 0.0 and 1.0
-            mnode.resonance = 0.99; // between 0.0 and 4.0
-            mnode.onaudioprocess = function(e) {
-                var input = e.inputBuffer.getChannelData(0);
-                var output = e.outputBuffer.getChannelData(0);
-                var f = mnode.cutoff * 1.16;
-                var fb = mnode.resonance * (1.0 - 0.15 * f * f);
-                for (var i = 0; i < bufferSize; i++) {
-                    input[i] -= out4 * fb;
-                    input[i] *= 0.35013 * (f*f)*(f*f);
-                    out1 = input[i] + 0.3 * in1 + (1 - f) * out1; // Pole 1
-                    in1 = input[i];
-                    out2 = out1 + 0.3 * in2 + (1 - f) * out2; // Pole 2
-                    in2 = out1;
-                    out3 = out2 + 0.3 * in3 + (1 - f) * out3; // Pole 3
-                    in3 = out2;
-                    out4 = out3 + 0.3 * in4 + (1 - f) * out4; // Pole 4
-                    in4 = out3;
-                    output[i] = out4;
-                }
-            }
-            return mnode;
-        })();
+    document.getElementById("oscup").addEventListener("click", function(){
+       oscnum+=1;
+        if(oscnum==0){
+            osc.type='sawtooth';
+        }
+        else if(oscnum==1){
+            osc.type = 'square';
+        }
+        else if(oscnum==2){
+            osc.type = 'sine';
+        }
+        else if(oscnum==3){
+            osc.type = 'triangle';
+        }
+        else if(oscnum > 3){
+            oscnum =0;
+        }
     });
-    document.getElementById("moogOff").addEventListener("click", function(){
-       mnode.disconnect();
+    document.getElementById("lfoup").addEventListener("click", function(){
+       lfonum+=1;
+        if(lfonum==0){
+            lfo.type='sawtooth';
+        }
+        else if(lfonum==1){
+            lfo.type = 'square';
+        }
+        else if(lfonum==2){
+            lfo.type = 'sine';
+        }
+        else if(lfonum==3){
+            osc.type = 'triangle';
+        }
+        else if(lfonum > 3){
+            lfonum =0;
+        }
     });
-
+    //KEYBOUND FUNCTIONALITY
     function keyup(){
         now = ctxt.currentTime;
         lfogain.gain.cancelScheduledValues( now );
@@ -388,7 +416,7 @@ Mousetrap.bind('u', function() {
             //get frequencyData key
             var freqDataKey = i*11;
             //if gain is over threshold for that frequency animate light
-            if (frequencyData[freqDataKey] > 180){
+            if (frequencyData[freqDataKey] > 200){
                 //start animation on element
                 lights[i].style.opacity = "1";
             } else {
@@ -402,7 +430,7 @@ Mousetrap.bind('u', function() {
         lfogain.gain.linearRampToValueAtTime(2, now + ATT);
         gain.gain.cancelScheduledValues( now );
         gain.gain.setValueAtTime(gain.gain.value, now );
-        gain.gain.linearRampToValueAtTime(1.5 , now + ATT);
+        gain.gain.linearRampToValueAtTime(1 , now + ATT);
         mgain.gain.cancelScheduledValues( now );
         mgain.gain.setValueAtTime(g.gain.value, now);
         mgain.gain.linearRampToValueAtTime(.7 , now + ATT);
