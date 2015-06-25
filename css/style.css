@@ -40,10 +40,31 @@ h2{
     align-items: flex-start;
     margin-top: 0px;
 }
+#blackbar{
+    background-color: rgba(255, 255, 255, .9);
+    width:65%;
+    margin:0 auto;
+    border-radius:5px;
+    position:relative;
+    font-family: 'Ubuntu', sans-serif;
+}
 #blackbar h2{
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
+    color: black;
     text-align: center;
+    padding:10px;
+}
+#blackbar p{
+    position:absolute;
+    padding-left:16px;
+}
+#bb{
+    cursor:pointer;
+}
+.larger{
+    font-family:"Source Code Pro", Monaco, monospace;
+
 }
 nav{
     display:flex;

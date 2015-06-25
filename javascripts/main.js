@@ -597,5 +597,9 @@ $(document).ready(function(){
         mgain.gain.linearRampToValueAtTime(.7 , now + ATT);
         update();
     };
+
+    document.getElementById("bb").addEventListener("click", function(){
+        $("#blackbar").hide(1000);
+    });
 });
 
