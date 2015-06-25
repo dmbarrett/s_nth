@@ -424,6 +424,137 @@ $(document).ready(function(){
         }
     });
 
+    //CLICK FUNCTIONALITY
+    document.getElementById("C").addEventListener("mousedown", function(){
+        document.getElementById("C").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 261.63;
+        lfo.frequency.value = 260.99/LFOD;
+        keydown();
+    });
+    document.getElementById("C").addEventListener("mouseup", function(){
+        document.getElementById("C").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("C#").addEventListener("mousedown", function(){
+        document.getElementById("C#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 277.18;
+        lfo.frequency.value = 277.77/LFOD;
+        keydown();
+    });
+    document.getElementById("C#").addEventListener("mouseup", function(){
+        document.getElementById("C#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("D").addEventListener("mousedown", function(){
+        document.getElementById("D").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 293.66;
+        lfo.frequency.value = 294.11/LFOD;
+        keydown();
+    });
+    document.getElementById("D").addEventListener("mouseup", function(){
+        document.getElementById("D").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("D#").addEventListener("mousedown", function(){
+        document.getElementById("D#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 311.13;
+        lfo.frequency.value = 310.77/LFOD;
+        keydown();
+    });
+    document.getElementById("D#").addEventListener("mouseup", function(){
+        document.getElementById("D#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("E").addEventListener("mousedown", function(){
+        document.getElementById("E").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 329.63;
+        lfo.frequency.value = 329.99/LFOD;
+        keydown();
+    });
+    document.getElementById("E").addEventListener("mouseup", function(){
+        document.getElementById("E").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("F").addEventListener("mousedown", function(){
+        document.getElementById("F").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 349.23;
+        lfo.frequency.value = 348.99/LFOD;
+        keydown();
+    });
+    document.getElementById("F").addEventListener("mouseup", function(){
+        document.getElementById("F").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("F#").addEventListener("mousedown", function(){
+        document.getElementById("F#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 369.88;
+        lfo.frequency.value = 377.11/LFOD;
+        keydown();
+    });
+    document.getElementById("F#").addEventListener("mouseup", function(){
+        document.getElementById("F#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("G").addEventListener("mousedown", function(){
+        document.getElementById("G").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 392.01;
+        lfo.frequency.value = 391.77/LFOD;
+        keydown();
+    });
+    document.getElementById("G").addEventListener("mouseup", function(){
+        document.getElementById("G").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("G#").addEventListener("mousedown", function(){
+        document.getElementById("G#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 415.33;
+        lfo.frequency.value = 415.77/LFOD;
+        keydown();
+    });
+    document.getElementById("G#").addEventListener("mouseup", function(){
+        document.getElementById("G#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("A").addEventListener("mousedown", function(){
+        document.getElementById("A").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 440.00;
+        lfo.frequency.value = 441.63/LFOD;
+        keydown();
+    });
+    document.getElementById("A").addEventListener("mouseup", function(){
+        document.getElementById("A").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("A#").addEventListener("mousedown", function(){
+        document.getElementById("A#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 466.16;
+        lfo.frequency.value = 466.66/LFOD;
+        keydown();
+    });
+    document.getElementById("A#").addEventListener("mouseup", function(){
+        document.getElementById("A#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("B").addEventListener("mousedown", function(){
+        document.getElementById("B").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 493.00;
+        lfo.frequency.value = 493.63/LFOD;
+        keydown();
+    });
+    document.getElementById("B").addEventListener("mouseup", function(){
+        document.getElementById("B").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("C2").addEventListener("mousedown", function(){
+        document.getElementById("C2").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 523.25;
+        lfo.frequency.value = 523.63/LFOD;
+        keydown();
+    });
+    document.getElementById("C2").addEventListener("mouseup", function(){
+        document.getElementById("C2").style.transform = "rotateX(0deg)";
+        keyup();
+    });
     //KEYBOUND FUNCTIONALITY
     function keyup(){
         now = ctxt.currentTime;

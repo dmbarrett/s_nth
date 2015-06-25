@@ -10,6 +10,9 @@ i{
     padding-right:5px;
     padding-top:80px;
 }
+footer h2{
+
+}
 h1{
     color:white;
     font-family:'Geostar', cursive;
@@ -20,6 +23,9 @@ h1{
     align-content: flex-start;
     align-items: flex-start;
     margin-bottom: 0px;
+}
+h1 b{
+    font-size: 10px;
 }
 h2{
     color:white;
@@ -33,6 +39,11 @@ h2{
     align-content: flex-start;
     align-items: flex-start;
     margin-top: 0px;
+}
+#blackbar h2{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    text-align: center;
 }
 nav{
     display:flex;
