@@ -65,7 +65,8 @@ button{
 #keys{
     font-family:'Oswald', sans-serif;
     font-weight: 300;
-    width:55%;
+    width:65%;
+    min-width:700px;
     margin:0 auto;
     padding:10px;
     display:flex;

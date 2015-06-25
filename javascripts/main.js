@@ -265,6 +265,19 @@ $(document).ready(function(){
         lfo.frequency.value = 493.63/LFOD;
         keydown();
     });
+    //C5 release
+    Mousetrap.bind('i', function() {
+        document.getElementById("C2").style.transform = "rotateX(0deg)";
+        keyup();
+    }, 'keyup');
+    //C5
+    Mousetrap.bind('i', function() {
+        document.getElementById("C2").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 523.25;
+        lfo.frequency.value = 523.63/LFOD;
+        keydown();
+    });
+
 
     //UI-CONTROLS
     document.getElementById("lfoadd").addEventListener("click", function(){
@@ -295,14 +308,25 @@ $(document).ready(function(){
     document.getElementById("decayAdd").addEventListener("click", function(){
         DEC +=.2
     });
-    document.getElementById("decaySub").addEventListener("click", function(){
-        DEC -=.2
+    document.getElementById("decaySub").addEventListener("click", function() {
+        if (DEC > .2) {
+            DEC -= .2;
+        }
+        else{
+            DEC = .2;
+        }
+
     });
     document.getElementById("attackAdd").addEventListener("click", function(){
         ATT +=.2
     });
     document.getElementById("attackSub").addEventListener("click", function(){
-        ATT -=.2
+        if(ATT>.2){
+            ATT -=.2;
+        }
+        else{
+            ATT = .2;
+        }
     });
     document.getElementById("rev").addEventListener("click", function(){
         driveCompressor.connect(convolver);
@@ -327,7 +351,12 @@ $(document).ready(function(){
        FFV +=500
     });
     document.getElementById("lowpassSub").addEventListener("click", function(){
-        FFV -=500
+        if(FFV>500){
+            FFV -=500;
+        }
+        else{
+            FFV = 500;
+        }
     });
     document.getElementById("bitter").addEventListener("click", function(){
         node.connect(mgain);
