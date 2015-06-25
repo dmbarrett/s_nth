@@ -12,13 +12,27 @@ i{
 }
 h1{
     color:white;
-    font-family:'Oswald', sans-serif;
+    font-family:'Geostar', cursive;
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
     align-items: flex-start;
+    margin-bottom: 0px;
+}
+h2{
+    color:white;
+    font-family:'Oswald', sans-serif;
+    font-weight: 300;
+    font-size:.9em;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+    margin-top: 0px;
 }
 nav{
     display:flex;
@@ -38,16 +52,19 @@ nav ul li{
     color: white;
     flex:1;
     font-family:'Oswald', sans-serif;
+    font-weight: 300;
 }
 button{
     height:50px;
     width:100px;
     font-family:'Oswald', sans-serif;
+    font-weight: 300;
     font-size: 18px;
 }
 
 #keys{
     font-family:'Oswald', sans-serif;
+    font-weight: 300;
     width:55%;
     margin:0 auto;
     padding:10px;
