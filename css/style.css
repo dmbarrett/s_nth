@@ -10,9 +10,6 @@ i{
     padding-right:5px;
     padding-top:80px;
 }
-footer h2{
-
-}
 h1{
     color:white;
     font-family:'Geostar', cursive;
@@ -137,9 +134,6 @@ button{
     width:61px;
     height:30px;
     border-radius: 10px 10px 10px 10px;
-}
-datalist{
-    display: block;
 }
 
 #one{
