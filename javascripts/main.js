@@ -544,7 +544,7 @@ $(document).ready(function(){
         update();
     };
     function keydown(){
-        //lights and total lights are tran
+        //lights and total lights are translated into frequency bands and become our light show
         var lights = document.getElementsByName('light');
         var totalLights = lights.length;
 
