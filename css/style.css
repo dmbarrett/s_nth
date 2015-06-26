@@ -21,6 +21,9 @@ h1{
     align-items: flex-start;
     margin-bottom: 0px;
 }
+h1 b{
+    font-size: 10px;
+}
 h2{
     color:white;
     font-family:'Oswald', sans-serif;
@@ -33,6 +36,32 @@ h2{
     align-content: flex-start;
     align-items: flex-start;
     margin-top: 0px;
+}
+#blackbar{
+    background-color: rgba(255, 255, 255, .9);
+    width:65%;
+    margin:0 auto;
+    border-radius:5px;
+    position:relative;
+    font-family: 'Ubuntu', sans-serif;
+}
+#blackbar h2{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    padding:10px;
+}
+#blackbar p{
+    position:absolute;
+    padding-left:16px;
+}
+#bb{
+    cursor:pointer;
+}
+.larger{
+    font-family:"Source Code Pro", Monaco, monospace;
+
 }
 nav{
     display:flex;
@@ -65,7 +94,8 @@ button{
 #keys{
     font-family:'Oswald', sans-serif;
     font-weight: 300;
-    width:55%;
+    width:65%;
+    min-width:700px;
     margin:0 auto;
     padding:10px;
     display:flex;
@@ -104,9 +134,6 @@ button{
     width:61px;
     height:30px;
     border-radius: 10px 10px 10px 10px;
-}
-datalist{
-    display: block;
 }
 
 #one{

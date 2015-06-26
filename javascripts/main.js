@@ -1,33 +1,32 @@
-var ctxt = new window.AudioContext();
-var osc  = ctxt.createOscillator();
-var filter = ctxt.createBiquadFilter();
-var lfo = ctxt.createOscillator();
-var gain = ctxt.createGain();
-analyser = ctxt.createAnalyser();
+var ctxt = new window.AudioContext(); //audio canvas
+var osc  = ctxt.createOscillator(); //first 'frequency controller'
+var filter = ctxt.createBiquadFilter(); //lowpass filter
+var lfo = ctxt.createOscillator(); //low frequency oscillator
+var gain = ctxt.createGain(); //volume
+analyser = ctxt.createAnalyser(); //sound data
+var drive  = ctxt.createWaveShaper(); //wave shaper 'aka distortion aka louder'
+var convolver = ctxt.createConvolver(); //reverb
+var node = ctxt.createScriptProcessor(4096, 1, 1); //bitcrusher
+var mgain = ctxt.createGain(); //effect gain (currently only affecting bitcrush)
 var now;
-var drive  = ctxt.createWaveShaper();
+
 LFOD = 2; //LFO DIVISOR
 ODG = 0; //OVERDRIVE GAIN
-FFV = 4000;
-EG = .5;
-DEC = 1;
-ATT = 1;
-var oscnum = 0;
-var lfonum = 0;
+FFV = 4000; //LOWPASS FILTER FREQUENCY
+DEC = 1; //DECAY
+ATT = 1; //ATTACK
+var oscnum = 0; //corresponds to a type (0 = saw, 1 = square, ....)
+var lfonum = 0; // ^
 
-
-var mnode = ctxt.createDelay();
-var mfilter = ctxt.createBiquadFilter();
-mfilter.frequency.value = 1000;
-mnode.delayTime.value = .5;
-
+//data structure for analyser
 analyser.fftSize = 2048;
 var frequencyData = new Uint8Array(1024);
+//animation function
 function update() {
     requestAnimationFrame(update);
     analyser.getByteFrequencyData(frequencyData);
 }
-
+//Waveshaper equation
 function makeDistortionCurve(amount) {
     var k = typeof amount === 'number' ? amount : 50,
         n_samples = 44100,
@@ -41,56 +40,39 @@ function makeDistortionCurve(amount) {
     }
     return curve;
 };
-var convolver = ctxt.createConvolver();
-var node = ctxt.createScriptProcessor(4096, 1, 1);
-var mnode = ctxt.createScriptProcessor(4096, 1, 1);
-var mgain = ctxt.createGain();
+
 
 
 
 $(document).ready(function(){
-    //MAIN OSC **VCO**
+    //MAIN OSCILLATOR **VCO**
     osc.frequency.value = 0;
     osc.type = 'sawtooth';
     osc.start(0);
-
-    filter.gain = 0.5;
-
-    var g = ctxt.createGain();
-    g.gain.value = .5;
-
-
-    var distortion = ctxt.createWaveShaper();
-    distortion.curve = makeDistortionCurve(Math.tan(1));
-    distortion.oversample = '2x';
-
+    //LFO **LOW FREQUENCY OSCILLATOR**
     lfo.frequency.value = 0;
     lfo.type = 'sawtooth';
     lfo.start(0);
-
+    //gain for the lfo
     lfogain = ctxt.createGain();
     lfogain.gain.value= .5;
-
+    //effect gain
     mgain.gain.value = .8;
-
-    //var lowshlf = ctxt.createBiquadFilter();
-    //lowshlf.type = "lowshelf";
-    //lowshlf.frequency.value = 500;
-    //lowshlf.gain.value = .25;
-    //
-    var bandpass = ctxt.createBiquadFilter();
-    bandpass.type = "bandpass";
-    bandpass.frequency.value = 5000;
-
-
+    //main gain
+    gain.gain.value = .9;
+    //lowpass gain
+    filter.gain = 0.5;
+    //Create a waveshaper waveform
     drive.curve = makeDistortionCurve(9000);
     drive.oversample = '4x';
+    //filter for the drive
     var driveFilter = ctxt.createBiquadFilter();
-    driveFilter.type = 'bandpass'
+    driveFilter.type = 'bandpass';
     driveFilter.frequency.value = 5000;
     driveFilter.gain.value = 4;
 
-    gain.gain.value = .9;
+
+    //FINAL COMPRESSOR 'VOLUME CONTROL'
     var driveCompressor = ctxt.createDynamicsCompressor();
     driveCompressor.threshold.value = ODG;
     driveCompressor.knee.value = 5;
@@ -98,20 +80,16 @@ $(document).ready(function(){
     driveCompressor.reduction.value = ODG;
     driveCompressor.attack.value = 0;
     driveCompressor.release.value = 2;
+
+    //DEFINE NODE CONNECTIONS
     osc.connect(drive);
-   // osc.connect(distortion);
-    //osc.connect(ctxt.destination);
-    //ADD DELAY and PANNER NODES
-    //ADD TIMBRE(MINOR PITCH MODULATION)
-    //ADD ANALYSER NODE
-    distortion.connect(drive);
     drive.connect(gain);
     lfo.connect(lfogain);
-    lfogain.connect(filter);
+    lfogain.connect(driveFilter);
     gain.connect(driveFilter);
     driveFilter.connect(driveCompressor);
+    gain.connect(node);
     lfogain.connect(node);
-    gain.connect(mnode);
     node.connect(mgain);
     mgain.connect(driveFilter);
     driveFilter.connect(filter);
@@ -121,11 +99,12 @@ $(document).ready(function(){
     driveCompressor.connect(ctxt.destination);
 
     //KEYBINDS
-    //C4
+    //C4 release
     Mousetrap.bind('q', function() {
         document.getElementById("C").style.transform = "rotateX(0deg)";
         keyup();
     }, 'keyup');
+    //C4
     Mousetrap.bind('q', function() {
         document.getElementById("C").style.transform = "rotateX(20deg)";
         osc.frequency.value = 261.63;
@@ -265,6 +244,19 @@ $(document).ready(function(){
         lfo.frequency.value = 493.63/LFOD;
         keydown();
     });
+    //C5 release
+    Mousetrap.bind('i', function() {
+        document.getElementById("C2").style.transform = "rotateX(0deg)";
+        keyup();
+    }, 'keyup');
+    //C5
+    Mousetrap.bind('i', function() {
+        document.getElementById("C2").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 523.25;
+        lfo.frequency.value = 523.63/LFOD;
+        keydown();
+    });
+
 
     //UI-CONTROLS
     document.getElementById("lfoadd").addEventListener("click", function(){
@@ -287,22 +279,28 @@ $(document).ready(function(){
             LFOD = 2;
         }
     });
-    //document.getElementById("gainadd").addEventListener("click", function(){
-    //    gain.gain.value = 1.0;
-    //    drive.curve = makeDistortionCurve(Math.tan(1));
-    //
-    //});
     document.getElementById("decayAdd").addEventListener("click", function(){
         DEC +=.2
     });
-    document.getElementById("decaySub").addEventListener("click", function(){
-        DEC -=.2
+    document.getElementById("decaySub").addEventListener("click", function() {
+        if (DEC > .2) {
+            DEC -= .2;
+        }
+        else{
+            DEC = .2;
+        }
+
     });
     document.getElementById("attackAdd").addEventListener("click", function(){
         ATT +=.2
     });
     document.getElementById("attackSub").addEventListener("click", function(){
-        ATT -=.2
+        if(ATT>.2){
+            ATT -=.2;
+        }
+        else{
+            ATT = .2;
+        }
     });
     document.getElementById("rev").addEventListener("click", function(){
         driveCompressor.connect(convolver);
@@ -327,7 +325,12 @@ $(document).ready(function(){
        FFV +=500
     });
     document.getElementById("lowpassSub").addEventListener("click", function(){
-        FFV -=500
+        if(FFV>500){
+            FFV -=500;
+        }
+        else{
+            FFV = 500;
+        }
     });
     document.getElementById("bitter").addEventListener("click", function(){
         node.connect(mgain);
@@ -395,6 +398,137 @@ $(document).ready(function(){
         }
     });
 
+    //CLICK FUNCTIONALITY
+    document.getElementById("C").addEventListener("mousedown", function(){
+        document.getElementById("C").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 261.63;
+        lfo.frequency.value = 260.99/LFOD;
+        keydown();
+    });
+    document.getElementById("C").addEventListener("mouseup", function(){
+        document.getElementById("C").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("C#").addEventListener("mousedown", function(){
+        document.getElementById("C#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 277.18;
+        lfo.frequency.value = 277.77/LFOD;
+        keydown();
+    });
+    document.getElementById("C#").addEventListener("mouseup", function(){
+        document.getElementById("C#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("D").addEventListener("mousedown", function(){
+        document.getElementById("D").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 293.66;
+        lfo.frequency.value = 294.11/LFOD;
+        keydown();
+    });
+    document.getElementById("D").addEventListener("mouseup", function(){
+        document.getElementById("D").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("D#").addEventListener("mousedown", function(){
+        document.getElementById("D#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 311.13;
+        lfo.frequency.value = 310.77/LFOD;
+        keydown();
+    });
+    document.getElementById("D#").addEventListener("mouseup", function(){
+        document.getElementById("D#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("E").addEventListener("mousedown", function(){
+        document.getElementById("E").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 329.63;
+        lfo.frequency.value = 329.99/LFOD;
+        keydown();
+    });
+    document.getElementById("E").addEventListener("mouseup", function(){
+        document.getElementById("E").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("F").addEventListener("mousedown", function(){
+        document.getElementById("F").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 349.23;
+        lfo.frequency.value = 348.99/LFOD;
+        keydown();
+    });
+    document.getElementById("F").addEventListener("mouseup", function(){
+        document.getElementById("F").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("F#").addEventListener("mousedown", function(){
+        document.getElementById("F#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 369.88;
+        lfo.frequency.value = 377.11/LFOD;
+        keydown();
+    });
+    document.getElementById("F#").addEventListener("mouseup", function(){
+        document.getElementById("F#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("G").addEventListener("mousedown", function(){
+        document.getElementById("G").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 392.01;
+        lfo.frequency.value = 391.77/LFOD;
+        keydown();
+    });
+    document.getElementById("G").addEventListener("mouseup", function(){
+        document.getElementById("G").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("G#").addEventListener("mousedown", function(){
+        document.getElementById("G#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 415.33;
+        lfo.frequency.value = 415.77/LFOD;
+        keydown();
+    });
+    document.getElementById("G#").addEventListener("mouseup", function(){
+        document.getElementById("G#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("A").addEventListener("mousedown", function(){
+        document.getElementById("A").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 440.00;
+        lfo.frequency.value = 441.63/LFOD;
+        keydown();
+    });
+    document.getElementById("A").addEventListener("mouseup", function(){
+        document.getElementById("A").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("A#").addEventListener("mousedown", function(){
+        document.getElementById("A#").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 466.16;
+        lfo.frequency.value = 466.66/LFOD;
+        keydown();
+    });
+    document.getElementById("A#").addEventListener("mouseup", function(){
+        document.getElementById("A#").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("B").addEventListener("mousedown", function(){
+        document.getElementById("B").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 493.00;
+        lfo.frequency.value = 493.63/LFOD;
+        keydown();
+    });
+    document.getElementById("B").addEventListener("mouseup", function(){
+        document.getElementById("B").style.transform = "rotateX(0deg)";
+        keyup();
+    });
+    document.getElementById("C2").addEventListener("mousedown", function(){
+        document.getElementById("C2").style.transform = "rotateX(20deg)";
+        osc.frequency.value = 523.25;
+        lfo.frequency.value = 523.63/LFOD;
+        keydown();
+    });
+    document.getElementById("C2").addEventListener("mouseup", function(){
+        document.getElementById("C2").style.transform = "rotateX(0deg)";
+        keyup();
+    });
     //KEYBOUND FUNCTIONALITY
     function keyup(){
         now = ctxt.currentTime;
@@ -410,12 +544,13 @@ $(document).ready(function(){
         update();
     };
     function keydown(){
+        //lights and total lights are translated into frequency bands which becomes the visuals
         var lights = document.getElementsByName('light');
         var totalLights = lights.length;
 
         for (var i=0; i<totalLights; i++) {
             //get frequencyData key
-            var freqDataKey = i*11;
+            var freqDataKey = i*8;
             //if gain is over threshold for that frequency animate light
             if (frequencyData[freqDataKey] > 200){
                 //start animation on element
@@ -437,5 +572,9 @@ $(document).ready(function(){
         mgain.gain.linearRampToValueAtTime(.7 , now + ATT);
         update();
     };
+
+    document.getElementById("bb").addEventListener("click", function(){
+        $("#blackbar").hide(1000);
+    });
 });
 
