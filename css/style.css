@@ -37,6 +37,8 @@ h2{
     align-items: flex-start;
     margin-top: 0px;
 }
+
+/* information bubble */
 #blackbar{
     background-color: rgba(255, 255, 255, .9);
     width:65%;
@@ -59,6 +61,8 @@ h2{
 #bb{
     cursor:pointer;
 }
+
+/* UI Controls */
 .larger{
     font-family:"Source Code Pro", Monaco, monospace;
 
@@ -91,6 +95,7 @@ button{
     font-size: 18px;
 }
 
+/* the keys */
 #keys{
     font-family:'Oswald', sans-serif;
     font-weight: 300;
@@ -122,6 +127,8 @@ button{
     flex:1;
     background-color: black;
 }
+
+/* analyser container */
 #analyser{
     display:flex;
     flex-direction: row;
@@ -135,7 +142,7 @@ button{
     height:30px;
     border-radius: 10px 10px 10px 10px;
 }
-
+/* our lights */
 #one{
     background: linear-gradient(#00E5A6, black);
 }

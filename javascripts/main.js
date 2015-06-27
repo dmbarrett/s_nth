@@ -18,14 +18,7 @@ ATT = 1; //ATTACK
 var oscnum = 0; //corresponds to a type (0 = saw, 1 = square, ....)
 var lfonum = 0; // ^
 
-//data structure for analyser
-analyser.fftSize = 2048;
-var frequencyData = new Uint8Array(1024);
-//animation function
-function update() {
-    requestAnimationFrame(update);
-    analyser.getByteFrequencyData(frequencyData);
-}
+
 //Waveshaper equation
 function makeDistortionCurve(amount) {
     var k = typeof amount === 'number' ? amount : 50,
@@ -45,6 +38,14 @@ function makeDistortionCurve(amount) {
 
 
 $(document).ready(function(){
+    //data structure for analyser
+    analyser.fftSize = 2048;
+    var frequencyData = new Uint8Array(1024);
+//animation function
+    function update() {
+        requestAnimationFrame(update);
+        analyser.getByteFrequencyData(frequencyData);
+    }
     //MAIN OSCILLATOR **VCO**
     osc.frequency.value = 0;
     osc.type = 'sawtooth';
@@ -94,7 +95,7 @@ $(document).ready(function(){
     mgain.connect(driveFilter);
     driveFilter.connect(filter);
     filter.connect(driveCompressor);
-    osc.connect(analyser);
+    gain.connect(analyser);
     lfo.connect(analyser);
     driveCompressor.connect(ctxt.destination);
 
@@ -544,13 +545,12 @@ $(document).ready(function(){
         update();
     };
     function keydown(){
-        //lights and total lights are translated into frequency bands and become our light show
         var lights = document.getElementsByName('light');
         var totalLights = lights.length;
 
         for (var i=0; i<totalLights; i++) {
             //get frequencyData key
-            var freqDataKey = i*8;
+            var freqDataKey = i*11;
             //if gain is over threshold for that frequency animate light
             if (frequencyData[freqDataKey] > 200){
                 //start animation on element
@@ -568,7 +568,7 @@ $(document).ready(function(){
         gain.gain.setValueAtTime(gain.gain.value, now );
         gain.gain.linearRampToValueAtTime(1 , now + ATT);
         mgain.gain.cancelScheduledValues( now );
-        mgain.gain.setValueAtTime(g.gain.value, now);
+        mgain.gain.setValueAtTime(mgain.gain.value, now);
         mgain.gain.linearRampToValueAtTime(.7 , now + ATT);
         update();
     };
