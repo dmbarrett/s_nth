@@ -540,7 +540,7 @@ $(document).ready(function(){
         gain.gain.setValueAtTime(gain.gain.value, now );
         gain.gain.linearRampToValueAtTime(0 , now + DEC);
         mgain.gain.cancelScheduledValues( now );
-        mgain.gain.setValueAtTime(g.gain.value, now);
+        mgain.gain.setValueAtTime(mgain.gain.value, now);
         mgain.gain.linearRampToValueAtTime(0 , now + DEC);
         update();
     };
