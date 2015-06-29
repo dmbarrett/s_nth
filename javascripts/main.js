@@ -338,7 +338,7 @@ $(document).ready(function(){
         var bufferSize = 4096;
         var effect = (function() {
             node.bits = 4; // between 1 and 16
-            node.normfreq = .5; // between 0.0 and 1.0
+            node.normfreq = .1; // between 0.0 and 1.0
             var step = Math.pow(1/3, node.bits);
             var phaser = 2;
             var last = 0;
