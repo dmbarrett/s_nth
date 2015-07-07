@@ -37,6 +37,27 @@ h2{
     align-items: flex-start;
     margin-top: 0px;
 }
+.knobs{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+    border:1px solid dimgray;
+    border-radius: 3px;
+    margin:5px;
+    padding:0 20px;
+}
+.synthwrap{
+    border:2px solid dimgrey;
+    min-width:777px;
+    max-width:800px;
+    margin:0 auto;
+    padding-bottom:5px;
+
+}
+/* information bubble */
 #blackbar{
     background-color: rgba(255, 255, 255, .9);
     width:65%;
@@ -59,6 +80,8 @@ h2{
 #bb{
     cursor:pointer;
 }
+
+/* UI Controls */
 .larger{
     font-family:"Source Code Pro", Monaco, monospace;
 
@@ -74,7 +97,7 @@ nav{
 nav ul{
     list-style-type: none;
     width:100px;
-    padding:0;
+    padding:5px;
 }
 nav ul li{
     text-align:center;
@@ -82,15 +105,18 @@ nav ul li{
     flex:1;
     font-family:'Oswald', sans-serif;
     font-weight: 300;
+    margin:2px;
 }
 button{
-    height:50px;
+    height:30px;
     width:100px;
     font-family:'Oswald', sans-serif;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 14px;
+    border-radius: 5px;
 }
 
+/* the keys */
 #keys{
     font-family:'Oswald', sans-serif;
     font-weight: 300;
@@ -122,6 +148,8 @@ button{
     flex:1;
     background-color: black;
 }
+
+/* analyser container */
 #analyser{
     display:flex;
     flex-direction: row;
@@ -135,7 +163,7 @@ button{
     height:30px;
     border-radius: 10px 10px 10px 10px;
 }
-
+/* our lights */
 #one{
     background: linear-gradient(#00E5A6, black);
 }
