@@ -6,6 +6,7 @@
     <link href='http://fonts.googleapis.com/css?family=Geostar' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="javascripts/jquery.knob.js"></script>
     <script src="javascripts/mousetrap.js"></script>
     <script src="javascripts/main.js"></script>
     <link rel="stylesheet" href="css/style.css"/>
@@ -27,36 +28,21 @@
     <div name="light" id="ten"></div>
     <div name="light" id="eleven"></div>
 </div>
-<div id = 'keys' title = 'Use the keyboard to play!'>
-    <div class= 'white C' id="C">&nbsp;C <i>Q</i></div>
-    <div class= 'black C#' id="C#">&nbsp;C# <i>2</i></div>
-    <div class= 'white D' id="D">&nbsp;D <i>W</i></div>
-    <div class= 'black D#' id="D#">&nbsp;D# <i>3</i></div>
-    <div class= 'white E' id="E">&nbsp;E <i>E</i></div>
-    <div class= 'white F' id="F">&nbsp;F <i>R</i></div>
-    <div class= 'black F#' id="F#">&nbsp;F# <i>5</i></div>
-    <div class= 'white G' id="G">&nbsp;G <i>T</i></div>
-    <div class= 'black G#' id="G#">&nbsp;G# <i>6</i></div>
-    <div class= 'white A' id="A">&nbsp;A <i>Y</i></div>
-    <div class= 'black A#' id="A#">&nbsp;A# <i>7</i></div>
-    <div class= 'white B' id="B">&nbsp;B <i>U</i></div>
-    <div class= 'white C2' id="C2">&nbsp;C <i>I</i></div>
-</div>
+<div class = 'synthwrap'>
 <div id = 'panelContainer'>
     <nav id = "effectPanel">
+        <div class="knobs">
         <ul id = "LFO">
             <li>
                 LFO Divisor
             </li>
+            <!--<li>-->
+                <!--<button class="larger" id = 'lfosub' title = "Changes the pitch(frequency) of the LFO(low frequency oscillator)">-->
+                    <!--+-->
+                <!--</button>-->
+            <!--</li>-->
             <li>
-                <button class="larger" id = 'lfosub' title = "Changes the pitch(frequency) of the LFO(low frequency oscillator)">
-                    +
-                </button>
-            </li>
-            <li>
-                <button class="larger" id = 'lfoadd' title = "Changes the pitch(frequency) of the LFO(low frequency oscillator)">
-                    -
-                </button>
+                <input type="text" value="2" class="lfodial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-step="2" data-displayInput=false >
             </li>
 
         </ul>
@@ -65,43 +51,53 @@
             <li>
                 Lowpass Filter
             </li>
+            <!--<li>-->
+                <!--<button class="larger" id = "lowpassAdd" title = "Changes the frequency of the lowpass filter">-->
+                    <!--+-->
+                <!--</button>-->
+            <!--</li>-->
             <li>
-                <button class="larger" id = "lowpassAdd" title = "Changes the frequency of the lowpass filter">
-                    +
-                </button>
+                <input type="text" value="7500" class="lpdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
             </li>
+        </ul>
+            <ul>
             <li>
-                <button class="larger" id = "lowpassSub" title = "Changes the frequency of the lowpass filter">
-                    -
-                </button>
+                Bandpass
+            </li>
+            <!--<li>-->
+                <!--<button class="larger" id = "lowpassAdd" title = "Changes the frequency of the lowpass filter">-->
+                    <!--+-->
+                <!--</button>-->
+            <!--</li>-->
+            <li>
+                <input type="text" value="1500" class="bpdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
             </li>
         </ul>
         <ul>
             <li>
                 Decay
             </li>
+            <!--<li>-->
+                <!--<button class="larger" id="decayAdd" title = "Changes the amount of time it takes for the note to play">-->
+                    <!--+-->
+                <!--</button>-->
+            <!--</li>-->
             <li>
-                <button class="larger" id="decayAdd" title = "Changes the amount of time it takes for the note to play">
-                    +
-                </button>
-            </li>
-            <li>
-                <button class="larger" id="decaySub" title = "Changes the amount of time it takes for the note to play">
-                    -
-                </button>
+                <input type="text" value="2" class="decaydial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
             </li>
         </ul>
         <ul>
             <li>
                 Attack
             </li>
+            <!--<li>-->
+                <!--<button class="larger" id="attackAdd" title = "Changes the amount of time it takes for the note to reach full volume">+</button>-->
+            <!--</li>-->
             <li>
-                <button class="larger" id="attackAdd" title = "Changes the amount of time it takes for the note to reach full volume">+</button>
-            </li>
-            <li>
-                <button class="larger" id="attackSub" title = "Changes the amount of time it takes for the note to reach full volume">-</button>
+                <input type="text" value="2" class="attackdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
             </li>
         </ul>
+        </div>
         <!--<ul>-->
             <!--<li>-->
                 <!--Ghost Filter-->
@@ -117,50 +113,45 @@
                 <!--</button>-->
             <!--</li>-->
         <!--</ul>-->
-        <ul>
-            <li>Reverb</li>
-            <li>
-                <button id="rev" title = "Give your sound a space">
-                    On
-                </button>
-            </li>
-            <li>
-                <button id="revoff">
-                    Off
-                </button>
-            </li>
-        </ul>
-        <ul>
-            <li>
-                Bitcrusher
-            </li>
-            <li>
-                <button id = "bitter" title="A scratchy overtone">
-                    On
-                </button>
-            </li>
-            <li>
-                <button id ="bitterOff">
-                    Off
-                </button>
-            </li>
-        </ul>
+        <div class="knobs">
         <ul>
             <li>
                 Waveform
             </li>
             <li>
-                <button id = "oscup" title = "Change the main oscillator waveform">
-                    OSC
+                <button id = "lfotriangle" title = "Triangle">
+                    Triangle
                 </button>
             </li>
             <li>
-                <button id = "lfoup" title = "Change the low frequency oscillator waveform">
-                    LFO
+                <button id = "lfosquare" title = "Square">
+                    Square
+                </button>
+            </li>
+            <li>
+                <button id = "lfosawtooth" title = "Saw">
+                    Saw
                 </button>
             </li>
         </ul>
+            </div>
     </nav>
+</div>
+<div id = 'keys' title = 'Use the keyboard to play!'>
+    <div class= 'white C' id="C">&nbsp;C <i>Q</i></div>
+    <div class= 'black C#' id="C#">&nbsp;C# <i>2</i></div>
+    <div class= 'white D' id="D">&nbsp;D <i>W</i></div>
+    <div class= 'black D#' id="D#">&nbsp;D# <i>3</i></div>
+    <div class= 'white E' id="E">&nbsp;E <i>E</i></div>
+    <div class= 'white F' id="F">&nbsp;F <i>R</i></div>
+    <div class= 'black F#' id="F#">&nbsp;F# <i>5</i></div>
+    <div class= 'white G' id="G">&nbsp;G <i>T</i></div>
+    <div class= 'black G#' id="G#">&nbsp;G# <i>6</i></div>
+    <div class= 'white A' id="A">&nbsp;A <i>Y</i></div>
+    <div class= 'black A#' id="A#">&nbsp;A# <i>7</i></div>
+    <div class= 'white B' id="B">&nbsp;B <i>U</i></div>
+    <div class= 'white C2' id="C2">&nbsp;C <i>I</i></div>
+</div>
 </div>
 <div id="blackbar"><p id="bb">X</p><h2>This is a monotron style synth modeled after Korg's Monotron. <br><br>Click on the keys, or refer to their corresponding keyboard shortcuts;<br> in the bottom right hand corner of each key there is the character that the key is bound to.<br><br>Hover over the buttons for some tips.<br><br> Have fun, and explore the endless combinations.</h2>
 </div>

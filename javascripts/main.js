@@ -1,24 +1,41 @@
 var ctxt = new window.AudioContext(); //audio canvas
 var osc  = ctxt.createOscillator(); //first 'frequency controller'
 var filter = ctxt.createBiquadFilter(); //lowpass filter
+var notch = ctxt.createBiquadFilter(); //notch filter
 var lfo = ctxt.createOscillator(); //low frequency oscillator
 var gain = ctxt.createGain(); //volume
 analyser = ctxt.createAnalyser(); //sound data
 var drive  = ctxt.createWaveShaper(); //wave shaper 'aka distortion aka louder'
 var convolver = ctxt.createConvolver(); //reverb
+var convolverGain = ctxt.createGain(); // reverb control
 var node = ctxt.createScriptProcessor(4096, 1, 1); //bitcrusher
 var mgain = ctxt.createGain(); //effect gain (currently only affecting bitcrush)
 var now;
 
+CGA = .5; //CONVOLVER GAIN
 LFOD = 2; //LFO DIVISOR
 ODG = 0; //OVERDRIVE GAIN
 FFV = 4000; //LOWPASS FILTER FREQUENCY
+BFV = 1500; //notch FILTER FREQUENCY
 DEC = 1; //DECAY
 ATT = 1; //ATTACK
+BITS = 1;
+VOL = .8;
+
+
 var oscnum = 0; //corresponds to a type (0 = saw, 1 = square, ....)
 var lfonum = 0; // ^
 
+var request = new XMLHttpRequest();
+request.open("GET", "./assets/impulse.wav", true);
+request.responseType = "arraybuffer";
 
+request.onload = function () {
+    ctxt.decodeAudioData(request.response, function(buffer) {
+        convolver.buffer = buffer;
+    });
+}
+request.send();
 //Waveshaper equation
 function makeDistortionCurve(amount) {
     var k = typeof amount === 'number' ? amount : 50,
@@ -34,6 +51,29 @@ function makeDistortionCurve(amount) {
     return curve;
 };
 
+
+var bufferSize = 22100;
+var effect = (function() {
+    node.bits = BITS; // between 1 and 16
+    node.normfreq = .3; // between 0.0 and 1.0
+    var step = Math.pow(1/3, node.bits);
+    var phaser = 2;
+    var last = 0;
+    node.onaudioprocess = function(e) {
+        var input = e.inputBuffer.getChannelData(0);
+        var output = e.outputBuffer.getChannelData(0);
+        for (var i = 0; i < bufferSize; i++) {
+            phaser += node.normfreq;
+            if (phaser >= 1.0) {
+                phaser -= 1.0;
+                last = step * Math.floor(input[i] / step + 0.5);
+            }
+            output[i] = last;
+        }
+    };
+    return node;
+
+})();
 
 
 
@@ -58,17 +98,23 @@ $(document).ready(function(){
     lfogain = ctxt.createGain();
     lfogain.gain.value= .5;
     //effect gain
-    mgain.gain.value = .8;
+    mgain.gain.value = 1;
     //main gain
     gain.gain.value = .9;
     //lowpass gain
     filter.gain = 0.5;
+    filter.Q.value = 1;
+    filter.type = 'lowpass';
+    notch.type = 'notch';
+    notch.Q.value = .1;
+    notch.gain = 0.2;
+    convolverGain.gain = CGA;
     //Create a waveshaper waveform
     drive.curve = makeDistortionCurve(9000);
     drive.oversample = '4x';
     //filter for the drive
     var driveFilter = ctxt.createBiquadFilter();
-    driveFilter.type = 'bandpass';
+    driveFilter.type = 'notch';
     driveFilter.frequency.value = 5000;
     driveFilter.gain.value = 4;
 
@@ -89,14 +135,19 @@ $(document).ready(function(){
     lfogain.connect(driveFilter);
     gain.connect(driveFilter);
     driveFilter.connect(driveCompressor);
-    gain.connect(node);
-    lfogain.connect(node);
-    node.connect(mgain);
     mgain.connect(driveFilter);
     driveFilter.connect(filter);
+    driveFilter.connect(notch);
     filter.connect(driveCompressor);
+    notch.connect(driveCompressor);
     gain.connect(analyser);
     lfo.connect(analyser);
+    driveCompressor.connect(node);
+    node.connect(mgain);
+    mgain.connect(ctxt.destination);
+    driveCompressor.connect(convolver);
+    convolver.connect(convolverGain);
+    convolverGain.connect(ctxt.destination);
     driveCompressor.connect(ctxt.destination);
 
     //KEYBINDS
@@ -260,143 +311,14 @@ $(document).ready(function(){
 
 
     //UI-CONTROLS
-    document.getElementById("lfoadd").addEventListener("click", function(){
-        LFOD +=2;
-        if(LFOD <= 0){
-            LFOD = 1;
-        }
-        else if(LFOD%2 != 0)
-        {
-            LFOD = 2;
-        }
+    document.getElementById("lfotriangle").addEventListener("click", function(){
+        lfo.type = 'triangle'
     });
-    document.getElementById("lfosub").addEventListener("click", function(){
-        LFOD -=2;
-        if(LFOD <= 0){
-            LFOD = 1;
-        }
-        else if(LFOD%2 != 0)
-        {
-            LFOD = 2;
-        }
+    document.getElementById("lfosquare").addEventListener("click", function(){
+        lfo.type = 'square'
     });
-    document.getElementById("decayAdd").addEventListener("click", function(){
-        DEC +=.2
-    });
-    document.getElementById("decaySub").addEventListener("click", function() {
-        if (DEC > .2) {
-            DEC -= .2;
-        }
-        else{
-            DEC = .2;
-        }
-
-    });
-    document.getElementById("attackAdd").addEventListener("click", function(){
-        ATT +=.2
-    });
-    document.getElementById("attackSub").addEventListener("click", function(){
-        if(ATT>.2){
-            ATT -=.2;
-        }
-        else{
-            ATT = .2;
-        }
-    });
-    document.getElementById("rev").addEventListener("click", function(){
-        driveCompressor.connect(convolver);
-        convolver.connect(ctxt.destination);
-
-// load the impulse response asynchronously
-        var request = new XMLHttpRequest();
-        request.open("GET", "./assets/impulse.wav", true);
-        request.responseType = "arraybuffer";
-
-        request.onload = function () {
-            ctxt.decodeAudioData(request.response, function(buffer) {
-                convolver.buffer = buffer;
-            });
-        }
-        request.send();
-    });
-    document.getElementById("revoff").addEventListener("click", function(){
-       convolver.disconnect();
-    });
-    document.getElementById("lowpassAdd").addEventListener("click", function(){
-       FFV +=500
-    });
-    document.getElementById("lowpassSub").addEventListener("click", function(){
-        if(FFV>500){
-            FFV -=500;
-        }
-        else{
-            FFV = 500;
-        }
-    });
-    document.getElementById("bitter").addEventListener("click", function(){
-        node.connect(mgain);
-        var bufferSize = 4096;
-        var effect = (function() {
-            node.bits = 4; // between 1 and 16
-            node.normfreq = .1; // between 0.0 and 1.0
-            var step = Math.pow(1/3, node.bits);
-            var phaser = 2;
-            var last = 0;
-            node.onaudioprocess = function(e) {
-                var input = e.inputBuffer.getChannelData(0);
-                var output = e.outputBuffer.getChannelData(0);
-                for (var i = 0; i < bufferSize; i++) {
-                    phaser += node.normfreq;
-                    if (phaser >= 1.0) {
-                        phaser -= 1.0;
-                        last = step * Math.floor(input[i] / step + 0.5);
-                    }
-                    output[i] = last;
-                }
-            };
-            return node;
-
-        })();
-
-    });
-    document.getElementById("bitterOff").addEventListener("click", function(){
-        node.disconnect();
-    });
-    document.getElementById("oscup").addEventListener("click", function(){
-       oscnum+=1;
-        if(oscnum==0){
-            osc.type='sawtooth';
-        }
-        else if(oscnum==1){
-            osc.type = 'square';
-        }
-        else if(oscnum==2){
-            osc.type = 'sine';
-        }
-        else if(oscnum==3){
-            osc.type = 'triangle';
-        }
-        else if(oscnum > 3){
-            oscnum =0;
-        }
-    });
-    document.getElementById("lfoup").addEventListener("click", function(){
-       lfonum+=1;
-        if(lfonum==0){
-            lfo.type='sawtooth';
-        }
-        else if(lfonum==1){
-            lfo.type = 'square';
-        }
-        else if(lfonum==2){
-            lfo.type = 'sine';
-        }
-        else if(lfonum==3){
-            osc.type = 'triangle';
-        }
-        else if(lfonum > 3){
-            lfonum =0;
-        }
+    document.getElementById("lfosawtooth").addEventListener("click", function(){
+        lfo.type = 'sawtooth'
     });
 
     //CLICK FUNCTIONALITY
@@ -532,6 +454,20 @@ $(document).ready(function(){
     });
     //KEYBOUND FUNCTIONALITY
     function keyup(){
+        var lights = document.getElementsByName('light');
+        var totalLights = lights.length;
+
+        for (var i=0; i<totalLights; i++) {
+            //get frequencyData key
+            var freqDataKey = i*11;
+            //if gain is over threshold for that frequency animate light
+            if (frequencyData[freqDataKey] > 200){
+                //start animation on element
+                lights[i].style.opacity = "1";
+            } else {
+                lights[i].style.opacity = "0.3";
+            }
+        }
         now = ctxt.currentTime;
         lfogain.gain.cancelScheduledValues( now );
         lfogain.gain.setValueAtTime(lfogain.gain.value, now );
@@ -560,7 +496,9 @@ $(document).ready(function(){
             }
         }
         now = ctxt.currentTime;
+        convolverGain.gain = CGA;
         filter.frequency.value =  FFV;
+        notch.frequency.value =  BFV;
         lfogain.gain.cancelScheduledValues( now );
         lfogain.gain.setValueAtTime(lfogain.gain.value, now );
         lfogain.gain.linearRampToValueAtTime(2, now + ATT);
@@ -575,6 +513,29 @@ $(document).ready(function(){
 
     document.getElementById("bb").addEventListener("click", function(){
         $("#blackbar").hide(1000);
+    });
+    $(".lpdial").knob({
+        'max':18000,
+        'change' : function (v) { FFV = v; }
+    });
+    $(".lfodial").knob({
+        'max':8,
+        'min':1,
+        'change' : function (v) { LFOD = v; }
+    });
+    $(".decaydial").knob({
+        'max':5,
+        'min':.25,
+        'change' : function (v) { DEC = v; }
+    });
+    $(".attackdial").knob({
+        'max':8,
+        'change' : function (v) { ATT = v; }
+    });
+    $(".bpdial").knob({
+        'max':18000,
+        'min':100,
+        'change' : function (v) { BFV = v; }
     });
 });
 
