@@ -11,26 +11,15 @@ var convolverGain = ctxt.createGain(); // reverb control
 var node = ctxt.createScriptProcessor(4096, 1, 1); //bitcrusher
 var mgain = ctxt.createGain(); //effect gain (currently only affecting bitcrush)
 var now;
-
-
-
-
 CGA = .5; //CONVOLVER GAIN
 LFOD = 2; //LFO DIVISOR
 ODG = 0; //OVERDRIVE GAIN
 FFV = 4000; //LOWPASS FILTER FREQUENCY
-BFV = 1500; //notch FILTER FREQUENCY
+BFV = 1500; //NOTCH FILTER FREQUENCY
 DEC = 1; //DECAY
 ATT = 1; //ATTACK
-BITS = 1;
-VOL = .8;
-FVO = .5;
-
-
-
-var oscnum = 0; //corresponds to a type (0 = saw, 1 = square, ....)
-var lfonum = 0; // ^
-
+BITS = 1; //BITCRUSHER
+FVO = .5; //FINAL VOLUME
 var request = new XMLHttpRequest();
 request.open("GET", "./assets/impulse.wav", true);
 request.responseType = "arraybuffer";
@@ -55,8 +44,6 @@ function makeDistortionCurve(amount) {
     }
     return curve;
 };
-
-
 var bufferSize = 22100;
 var effect = (function() {
     node.bits = BITS; // between 1 and 16
@@ -77,17 +64,16 @@ var effect = (function() {
         }
     };
     return node;
-
 })();
-
-
 $(document).ready(function(){
+    //Key constructor
     function KeyCon(key, note, high_value, low_value) {
         this.keyv = key;
         this.note = note;
         this.high_value = high_value;
         this.low_value = low_value;
     }
+    //Array of our Keys
     var pianoKeys = [
         new KeyCon ('q','C',261.63,260.99),
         new KeyCon ('2','C#',277.18,277.77),
@@ -103,47 +89,48 @@ $(document).ready(function(){
         new KeyCon ('u','B',493.00,493.63),
         new KeyCon ('i','C2',523.25,523.63)
     ];
-
+    //Key Binds
     function BindKeys() {
         var i = 0
         do {
 
-            var fn = function() {
+            var setValues = function() {
                 document.getElementById(this.note).style.transform = "rotateX(20deg)";
                 osc.frequency.value = this.high_value;
                 lfo.frequency.value = this.low_value;
                 keydown();
             };
-            var fn = fn.bind(pianoKeys[i]);
+            var anonfn = setValues.bind(pianoKeys[i]);
 
-            Mousetrap.bind(pianoKeys[i].keyv, fn);
-            var fn2 = function() {
+            Mousetrap.bind(pianoKeys[i].keyv, anonfn);
+            var rest = function() {
                 document.getElementById(this.note).style.transform = "rotateX(0deg)";
                 keyup();
             };
-            var fm = fn2.bind(pianoKeys[i]);
-            Mousetrap.bind(pianoKeys[i].keyv, fm, 'keyup');
+            var anonf = rest.bind(pianoKeys[i]);
+            Mousetrap.bind(pianoKeys[i].keyv, anonf, 'keyup');
 
             i++;
         } while (i<13);
     }
+    //Click Binds
     function BindClicks() {
         var i = 0
         do {
-            var fn3 = function() {
+            var clickValues = function() {
                 document.getElementById(this.note).style.transform = "rotateX(20deg)";
                 osc.frequency.value = this.high_value;
                 lfo.frequency.value = this.low_value;
                 keydown();
             };
-            var f = fn3.bind(pianoKeys[i]);
-            document.getElementById(pianoKeys[i].note).addEventListener("mousedown", f);
-            var fn4 = function() {
+            var anonfunc = clickValues.bind(pianoKeys[i]);
+            document.getElementById(pianoKeys[i].note).addEventListener("mousedown", anonfunc);
+            var anonym = function() {
                 document.getElementById(this.note).style.transform = "rotateX(0deg)";
                 keyup();
             };
-            var m = fn4.bind(pianoKeys[i]);
-            document.getElementById(pianoKeys[i].note).addEventListener("mouseup", m);
+            var reset = anonym.bind(pianoKeys[i]);
+            document.getElementById(pianoKeys[i].note).addEventListener("mouseup", reset);
             i++;
         } while (i<13);
     }
@@ -152,7 +139,7 @@ $(document).ready(function(){
     //data structure for analyser
     analyser.fftSize = 2048;
     var frequencyData = new Uint8Array(1024);
-//animation function
+    //animation function
     function update() {
         requestAnimationFrame(update);
         analyser.getByteFrequencyData(frequencyData);
@@ -223,11 +210,6 @@ $(document).ready(function(){
     convolverGain.connect(driveCompressor);
     driveCompressor.connect(volume);
     volume.connect(ctxt.destination);
-
-    //KEYBINDS
-
-
-
     //UI-CONTROLS
     document.getElementById("lfotriangle").addEventListener("click", function(){
         lfo.type = 'triangle'
@@ -238,9 +220,6 @@ $(document).ready(function(){
     document.getElementById("lfosawtooth").addEventListener("click", function(){
         lfo.type = 'sawtooth'
     });
-
-    //CLICK FUNCTIONALITY
-    //KEYBOUND FUNCTIONALITY
     function keyup(){
         var lights = document.getElementsByName('light');
         var totalLights = lights.length;
@@ -300,7 +279,6 @@ $(document).ready(function(){
         mgain.gain.linearRampToValueAtTime(.7 , now + ATT);
         update();
     };
-
     document.getElementById("bb").addEventListener("click", function(){
         $("#blackbar").hide(1000);
     });
@@ -332,13 +310,4 @@ $(document).ready(function(){
         'min':0,
         'change' : function (v) { FVO = v; }
     });
-
-
-
-
-
 });
-
-
-//IMPLEMENT
-
