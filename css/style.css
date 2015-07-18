@@ -51,7 +51,7 @@ h2{
 }
 .synthwrap{
     border:2px solid dimgrey;
-    min-width:844px;
+    min-width:899px;
     max-width:900px;
     margin:0 auto;
     padding-bottom:5px;
@@ -64,6 +64,7 @@ h2{
     margin:0 auto;
     border-radius:5px;
     position:relative;
+    margin-top:10px;
     font-family: 'Ubuntu', sans-serif;
 }
 #blackbar h2{
@@ -73,9 +74,10 @@ h2{
     text-align: center;
     padding:10px;
 }
-#blackbar p{
+#blackbar b{
     position:absolute;
     padding-left:16px;
+    padding-top:16px;
 }
 #bb{
     cursor:pointer;
@@ -196,4 +198,26 @@ button{
 }
 #eleven{
     background: linear-gradient(#BF0033, black);
+}
+p{
+    display: none;
+}
+@media (max-width: 700px) {
+    #analyser {
+        display: none;
+    }
+    .synthwrap{
+        display:none;
+    }
+    #blackbar{
+        display:none;
+    }
+    p{
+        display:block;
+        color:white;
+        font-family:"Source Code Pro", Monaco, monospace;
+        padding:10px;
+    }
+
+
 }
