@@ -14,11 +14,17 @@ h1{
     color:white;
     font-family:'Geostar', cursive;
     display:flex;
+    display:-webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
     margin-bottom: 0px;
 }
 h1 b{
@@ -30,20 +36,32 @@ h2{
     font-weight: 300;
     font-size:.9em;
     display:flex;
+    display: -webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
     margin-top: 0px;
 }
 .knobs{
     display:flex;
+    display:-webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
     border:1px solid dimgray;
     border-radius: 3px;
     margin:5px;
@@ -90,11 +108,17 @@ h2{
 }
 nav{
     display:flex;
+    display:-webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
 }
 nav ul{
     list-style-type: none;
@@ -127,11 +151,17 @@ button{
     margin:0 auto;
     padding:10px;
     display:flex;
+    display: -webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
     background-color: white;
 }
 .white{
@@ -150,15 +180,25 @@ button{
     flex:1;
     background-color: black;
 }
-
+.red{
+    color:red;
+    margin:0;
+    padding:0;
+}
 /* analyser container */
 #analyser{
     display:flex;
+    display:-webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-content: flex-start;
+    -webkit-align-content: flex-start;
     align-items: flex-start;
+    -webkit-align-items: flex-start;
 }
 #analyser div{
     width:61px;
@@ -202,9 +242,13 @@ button{
 p{
     display: none;
 }
-@media (max-width: 700px) {
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) {
     #analyser {
-        display: none;
+        display:none;
     }
     .synthwrap{
         display:none;
@@ -218,6 +262,7 @@ p{
         font-family:"Source Code Pro", Monaco, monospace;
         padding:10px;
     }
-
-
 }
+
+
+
