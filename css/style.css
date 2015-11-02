@@ -1,0 +1,268 @@
+body{
+    margin:0 auto;
+    background-color: black;
+}
+i{
+    font-family: "Source Code Pro", Monaco, monospace;
+    font-style: normal;
+    font-size:12px;
+    float:right;
+    padding-right:5px;
+    padding-top:80px;
+}
+h1{
+    color:white;
+    font-family:'Geostar', cursive;
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+    margin-bottom: 0px;
+}
+h1 b{
+    font-size: 10px;
+}
+h2{
+    color:white;
+    font-family:'Oswald', sans-serif;
+    font-weight: 300;
+    font-size:.9em;
+    display:flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+    margin-top: 0px;
+}
+.knobs{
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+    border:1px solid dimgray;
+    border-radius: 3px;
+    margin:5px;
+    padding:0 20px;
+}
+.synthwrap{
+    border:2px solid dimgrey;
+    min-width:899px;
+    max-width:900px;
+    margin:0 auto;
+    padding-bottom:5px;
+
+}
+/* information bubble */
+#blackbar{
+    background-color: rgba(255, 255, 255, .9);
+    width:65%;
+    margin:0 auto;
+    border-radius:5px;
+    position:relative;
+    margin-top:10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+#blackbar h2{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    padding:10px;
+}
+#blackbar b{
+    position:absolute;
+    padding-left:16px;
+    padding-top:16px;
+}
+#bb{
+    cursor:pointer;
+}
+
+/* UI Controls */
+.larger{
+    font-family:"Source Code Pro", Monaco, monospace;
+
+}
+nav{
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+}
+nav ul{
+    list-style-type: none;
+    width:100px;
+    padding:5px;
+}
+nav ul li{
+    text-align:center;
+    color: white;
+    flex:1;
+    font-family:'Oswald', sans-serif;
+    font-weight: 300;
+    margin:2px;
+}
+button{
+    height:30px;
+    width:100px;
+    font-family:'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+/* the keys */
+#keys{
+    font-family:'Oswald', sans-serif;
+    font-weight: 300;
+    width:65%;
+    min-width:700px;
+    margin:0 auto;
+    padding:10px;
+    display:flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+    background-color: white;
+}
+.white{
+    color:black;
+    background-color: white;
+    border:1px solid black;
+    width:50px;
+    height:100px;
+    flex:1;
+}
+.black{
+    color:white;
+    border:1px solid black;
+    width:50px;
+    height:100px;
+    flex:1;
+    background-color: black;
+}
+.red{
+    color:red;
+    margin:0;
+    padding:0;
+}
+/* analyser container */
+#analyser{
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-items: flex-start;
+    -webkit-align-items: flex-start;
+}
+#analyser div{
+    width:61px;
+    height:30px;
+    border-radius: 10px 10px 10px 10px;
+}
+/* our lights */
+#one{
+    background: linear-gradient(#00E5A6, black);
+}
+#two{
+    background: linear-gradient(#00DBE1, black);
+}
+#three{
+    background: linear-gradient(#0095DD, black);
+}
+#four{
+    background: linear-gradient(#0051D9, black);
+}
+#five{
+    background: linear-gradient(#000FD5, black);
+}
+#six{
+    background: linear-gradient(#2F00D2, black);
+}
+#seven{
+    background: linear-gradient(#6C00CE, black);
+}
+#eight{
+    background: linear-gradient(#A700CA, black);
+}
+#nine{
+    background: linear-gradient(#C600AD, black);
+}
+#ten{
+    background: linear-gradient(#C2006F, black);
+}
+#eleven{
+    background: linear-gradient(#BF0033, black);
+}
+p{
+    display: none;
+}
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) {
+    #analyser {
+        display:none;
+    }
+    .synthwrap{
+        display:none;
+    }
+    #blackbar{
+        display:none;
+    }
+    p{
+        display:block;
+        color:white;
+        font-family:"Source Code Pro", Monaco, monospace;
+        padding:10px;
+    }
+}
+
+
+

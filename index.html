@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Geostar' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="javascripts/mousetrap.js"></script>
+    <script src="javascripts/jquery.knob.js"></script>
+    <script src="javascripts/main.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="shorcut icon" href="http://cdn2.bigcommerce.com/n-zfvgw8/fb20u/product_images/favicon_S.gif?1398461801"/>
+    <title>_NTH</title>
+</head>
+<h1>s _ n t h</h1>
+<h2>a mono synthesizer built with the Web Audio API</h2>
+<p>Please view in a fullscreen browser window(s_nth only runs on Chrome and Firefox). Mobile view coming soon!!</p>
+<div id = "analyser">
+    <div name="light" id="one"></div>
+    <div name="light" id="two"></div>
+    <div name="light" id="three"></div>
+    <div name="light" id="four"></div>
+    <div name="light" id="five"></div>
+    <div name="light" id="six"></div>
+    <div name="light" id="seven"></div>
+    <div name="light" id="eight"></div>
+    <div name="light" id="nine"></div>
+    <div name="light" id="ten"></div>
+    <div name="light" id="eleven"></div>
+</div>
+<div class = 'synthwrap'>
+<div id = 'panelContainer'>
+    <nav id = "effectPanel">
+        <div class="knobs">
+            <ul id = "LFO">
+                <li>
+                    LFO Divisor
+                </li>
+                <li>
+                    <input type="text" value="2" class="lfodial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-step="2" data-displayInput=false >
+                </li>
+
+            </ul>
+            <ul>
+                <li>
+                    Lowpass Filter
+                </li>
+                <li>
+                    <input type="text" value="7500" class="lpdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Notch Filter
+                </li>
+                <li>
+                    <input type="text" value="1500" class="bpdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Decay
+                </li>
+                <li>
+                    <input type="text" value="2" class="decaydial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Attack
+                </li>
+                <li>
+                    <input type="text" value="2" class="attackdial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90" data-displayInput=false>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Volume
+                </li>
+            <li>
+                <input type="text" value=".5" class="volumedial" data-fgColor="#B9B9B9" data-bgColor="grey" data-thickness=".3" data-height="90" data-width="90"  data-step='.1' data-displayInput=false>
+            </li>
+        </ul>
+        </div>
+        <div class="knobs">
+        <ul>
+            <li>
+                Waveform
+            </li>
+            <li>
+                <button id = "lfotriangle" title = "Triangle">
+                    Triangle
+                </button>
+            </li>
+            <li>
+                <button id = "lfosquare" title = "Square">
+                    Square
+                </button>
+            </li>
+            <li>
+                <button id = "lfosawtooth" title = "Saw">
+                    Saw
+                </button>
+            </li>
+        </ul>
+            </div>
+    </nav>
+</div>
+<div id = 'keys' title = 'Use the keyboard to play!'>
+    <div class= 'white C' id="C">&nbsp;C <i>Q</i></div>
+    <div class= 'black C#' id="C#">&nbsp;C# <i>2</i></div>
+    <div class= 'white D' id="D">&nbsp;D <i>W</i></div>
+    <div class= 'black D#' id="D#">&nbsp;D# <i>3</i></div>
+    <div class= 'white E' id="E">&nbsp;E <i>E</i></div>
+    <div class= 'white F' id="F">&nbsp;F <i>R</i></div>
+    <div class= 'black F#' id="F#">&nbsp;F# <i>5</i></div>
+    <div class= 'white G' id="G">&nbsp;G <i>T</i></div>
+    <div class= 'black G#' id="G#">&nbsp;G# <i>6</i></div>
+    <div class= 'white A' id="A">&nbsp;A <i>Y</i></div>
+    <div class= 'black A#' id="A#">&nbsp;A# <i>7</i></div>
+    <div class= 'white B' id="B">&nbsp;B <i>U</i></div>
+    <div class= 'white C2' id="C2">&nbsp;C <i>I</i></div>
+</div>
+</div>
+<div id="blackbar"><b id="bb">X</b><br><h2><div class="red">NOTE: s_nth is NOT Internet Explorer, Opera, or mobile(coming soon) friendly. Please use Chrome or Firefox.</div><br>This is a monotron style synth modeled after Korg's Monotron. <br><br>Click on the keys, or refer to their corresponding keyboard shortcuts;<br> in the bottom right hand corner of each key there is the character that the key is bound to.<br><br>Hover over the buttons for some tips.<br><br> Have fun, and explore the endless combinations.</h2>
+</div>
+
+</body>
+</html>
