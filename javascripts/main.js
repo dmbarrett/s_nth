@@ -310,4 +310,8 @@ $(document).ready(function(){
         'min':0,
         'change' : function (v) { FVO = v; }
     });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 4c17ac48f0424384bc86af6a9f877fea16344e01
