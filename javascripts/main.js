@@ -1,4 +1,4 @@
-var ctxt = new window.webkitAudioContext(); //audio canvas
+var ctxt = new window.AudioContext(); //audio canvas
 var osc  = ctxt.createOscillator(); //first 'frequency controller'
 var filter = ctxt.createBiquadFilter(); //lowpass filter
 var notch = ctxt.createBiquadFilter(); //notch filter
